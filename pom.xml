@@ -11,4 +11,12 @@
         <maven.compiler.target>19</maven.compiler.target>
         <exec.mainClass>com.quickchat.quickchat.poe.QuickchatPoe</exec.mainClass>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>
