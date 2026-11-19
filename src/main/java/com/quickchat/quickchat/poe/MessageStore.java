@@ -59,4 +59,17 @@ public class MessageStore {
         return result;
     }
 
+    public String displayLongestStoredMessage() {
+        String longest = "";
+        for (int i = 0; i < count; i++) {
+            if (storedMessages[i] != null && storedMessages[i].length() > longest.length()) {
+                longest = storedMessages[i];
+            }
+        }
+        if (longest.isEmpty()) {
+            return "No stored messages.";
+        }
+        return longest;
+    }
+
 }
