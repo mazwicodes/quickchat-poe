@@ -72,4 +72,76 @@ public class MessageStore {
         return longest;
     }
 
+    private String textAt(int i) {
+        if (sentMessages[i] != null) {
+            return sentMessages[i];
+        }
+        if (storedMessages[i] != null) {
+            return storedMessages[i];
+        }
+        return disregardedMessages[i];
+    }
+
+    public String searchByMessageID(String id) {
+        for (int i = 0; i < count; i++) {
+            if (messageIDs[i].equals(id)) {
+                return "Recipient: " + recipients[i] + " | Message: " + textAt(i);
+            }
+        }
+        return "Message ID not found.";
+    }
+
+    public String searchByRecipient(String recipient) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            if (recipients[i].equals(recipient) && disregardedMessages[i] == null) {
+                sb.append(textAt(i)).append("\n");
+            }
+        }
+        return sb.length() == 0 ? "No messages found for that recipient." : sb.toString().trim();
+    }
+
+    public String deleteByHash(String hash) {
+        for (int i = 0; i < count; i++) {
+            if (messageHashes[i].equalsIgnoreCase(hash)) {
+                String text = textAt(i);
+                for (int j = i; j < count - 1; j++) {
+                    sentMessages[j] = sentMessages[j + 1];
+                    storedMessages[j] = storedMessages[j + 1];
+                    disregardedMessages[j] = disregardedMessages[j + 1];
+                    messageIDs[j] = messageIDs[j + 1];
+                    messageHashes[j] = messageHashes[j + 1];
+                    recipients[j] = recipients[j + 1];
+                }
+                int last = count - 1;
+                sentMessages[last] = null;
+                storedMessages[last] = null;
+                disregardedMessages[last] = null;
+                messageIDs[last] = null;
+                messageHashes[last] = null;
+                recipients[last] = null;
+                count--;
+                return "Message: \"" + text + "\" successfully deleted.";
+            }
+        }
+        return "Message hash not found.";
+    }
+
+    // 2f. Report of all sent messages: hash, recipient, message
+    public String displayReport() {
+        StringBuilder sb = new StringBuilder("----- MESSAGE REPORT -----\n");
+        for (int i = 0; i < count; i++) {
+            if (sentMessages[i] != null) {
+                sb.append("Message Hash: ").append(messageHashes[i])
+                        .append(" | Recipient: ").append(recipients[i])
+                        .append(" | Message: ").append(sentMessages[i]).append("\n");
+            }
+        }
+        return sb.toString();
+    }
+
+    public String getHash(int i) {
+        return messageHashes[i];
+    }
+
 }
