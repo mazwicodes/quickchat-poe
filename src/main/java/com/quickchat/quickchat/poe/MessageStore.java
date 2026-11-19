@@ -49,4 +49,14 @@ public class MessageStore {
         return true;
     }
 
+    public String displayStoredSenderAndRecipient(String sender) {
+        String result = "";
+        for (int i = 0; i < count; i++) {
+            if (storedMessages[i] != null) {
+                result = result + "Sender: " + sender + " | Recipient: " + recipients[i] + "\n";
+            }
+        }
+        return result;
+    }
+
 }
